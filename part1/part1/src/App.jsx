@@ -13,6 +13,50 @@ const Hello = ({ name, age }) => {
   )
 }
 
+const LeftAndRight = () => {
+  const [ clicks, setClicks ] = useState({
+    left: 0,
+    right:0
+  })
+  const [ allClicks, setAll ] = useState([])
+
+  const handleLeftClick = () => {
+    const newClicks = {
+      left: clicks.left + 1,
+      right: clicks.right
+    }
+    setClicks(newClicks)
+
+    setAll(allClicks.concat('L')) //don't use push 
+  }
+
+  const handleRightClick = () => {
+    setClicks({
+      ...clicks,
+      right: clicks.right + 1
+    })
+    setAll(allClicks.concat('R'))
+  }
+
+  return (
+    <div>
+      Left: {clicks.left}
+      <button onClick={handleLeftClick}>left</button>
+      Right: {clicks.right}
+      <button onClick={handleRightClick}>right</button>
+      <p>{allClicks.join(' ')}</p>
+    </div>
+  )
+}
+
+const Display = ({ counter }) => <div>Counter: {counter}</div>
+
+const Button = ({ text, onClick }) =>
+(
+  <button onClick={onClick}>{text}</button>
+)
+
+
 const App = () => {
   // destructuring assignment (see bottom comment)
   // useState(0) returns an array initialized with the value 0
@@ -25,14 +69,24 @@ const App = () => {
   //   1000
   // )
 
-  console.log("rendering component " + counter)
+  console.log('rendering with counter value', counter)
 
-  const handleClick = () => {
-    console.log("clicked")
+  // const handleClick = () => {
+  //   console.log("clicked")
+  // }
+
+  const increaseByOne = () => {
+    console.log('increasing, value before', counter)
+    setCounter(counter + 1)
   }
-
-  const increaseByOne = () => setCounter(counter + 1)
-  const setToZero = () => setCounter(0)
+  const decreaseByOne = () => {
+    console.log('decreasing, value before', counter)
+    setCounter(counter - 1)
+  }
+  const setToZero = () => {
+    console.log('resetting to zero, value before', counter)
+    setCounter(0)
+  }
 
   const name = 'Peter';
   const age = 10;
@@ -45,11 +99,13 @@ const App = () => {
       <Hello name='Paul' age='20' />
       <Hello name={name} age={age} />
 
-      <p>Counter: {counter}</p>
+      <Display counter={counter}/>
 
-      <button onClick={handleClick}>plus</button>
-      <button onClick={increaseByOne}>inc counter</button>
-      <button onClick={setToZero}>zero</button>
+      <Button onClick={increaseByOne} text='plus'/>
+      <Button onClick={setToZero} text='zero' />
+      <Button onClick={decreaseByOne} text='minus' />
+
+      <LeftAndRight />
     </div>
   )
 }
