@@ -99,7 +99,7 @@ const LeftAndRight2 = () => {
 
   return (
     <div>
-      <h3>Left and Right 2</h3>
+      <h3>Left and Right 2 async fix</h3>
       Left: {left}
       <button onClick={handleLeftClick}>left</button>
       Right: {right}
@@ -113,10 +113,9 @@ const LeftAndRight2 = () => {
 
 const HelloButton = () => {
   const hello = (who) => {
-    const handler = () => {
+    return () => {
       console.log('hello', who)
     }
-    return handler
   }
 
   return (
@@ -125,6 +124,26 @@ const HelloButton = () => {
       <button onClick={hello('world')}>world</button>
       <button onClick={hello('react')}>react</button>
       <button onClick={hello('function')}>function</button>
+    </div>
+  )
+}
+
+
+const Value = () => {
+  const [ value, setValue ] = useState(10)
+
+  const setToValue = (newValue) => () => {
+    console.log('value now', newValue)
+    setValue(newValue)
+  } // function that returns a function
+
+  return (
+    <div>
+      <h2>Value buttons</h2>
+      <p>Value: {value}</p>
+      <button onClick={setToValue(1000)}>thousand</button>
+      <button onClick={setToValue(0)}>reset</button>
+      <button onClick={setToValue(value + 1)}>increment</button>
     </div>
   )
 }
@@ -198,6 +217,8 @@ const App = () => {
 
       <HelloButton />
 
+      <Value />
+
     </div>
   )
 }
@@ -205,7 +226,7 @@ const App = () => {
 /* DESTRUCTURING ASSIGNMENT
 const t = [1, 2, 3, 4, 5]
 
-const [first, second, ...rest] = t
+const [fir"st, second, ...rest] = t
 
 console.log(first, second)  // 1, 2 is printed
 console.log(rest)          // [3, 4, 5] is printed
